@@ -18,55 +18,13 @@ Alumno *alumno_crear(int id, const char *nombre, int edad) {
     a->id = id;
     a->edad = edad;
     a->nombre = duplicar_cadena(nombre);
-    a->notas = NULL;
-    a->cantidad_notas = 0;
-    a->promedio = 0.0;
     return a;
-}
-
-void alumno_agregar_nota(Alumno *a, float nota) {
-    if (!a) return;
-    
-
-    float *nuevas_notas = realloc(a->notas, sizeof(float) * (a->cantidad_notas + 1));
-    if (!nuevas_notas) return;
-    
-    a->notas = nuevas_notas;
-    a->notas[a->cantidad_notas] = nota;
-    a->cantidad_notas++;
-    
-
-    alumno_actualizar_promedio(a);
-}
-
-void alumno_actualizar_promedio(Alumno *a) {
-    if (!a) {
-        a->promedio = 0.0;
-        return;
-    }
-    if (a->cantidad_notas == 0){
-        a->promedio = 0.0;
-        return;
-    }
-    
-    float suma = 0;
-    for (size_t i = 0; i < a->cantidad_notas; i++) {
-        suma += a->notas[i];
-    }
-    a->promedio = suma / a->cantidad_notas;
 }
 
 void alumno_mostrar(const Alumno *a) {
     if (!a) return;
-    printf("ID: %d | Nombre: %s | Edad: %d | Promedio: %.2f\n", 
-           a->id, a->nombre, a->edad, a->promedio);
-    if (a->cantidad_notas > 0) {
-        printf("Notas: ");
-        for (size_t i = 0; i < a->cantidad_notas; i++) {
-            printf("%.2f ", a->notas[i]);
-        }
-        printf("\n");
-    }
+    printf("ID: %d | Nombre: %s | Edad: %d\n", 
+           a->id, a->nombre, a->edad);
 }
 
 void alumno_modificar(Alumno *a, const char *nuevo_nombre, int nueva_edad) {
@@ -79,7 +37,6 @@ void alumno_modificar(Alumno *a, const char *nuevo_nombre, int nueva_edad) {
 void alumno_destruir(Alumno *a) {
     if (!a) return;
     free(a->nombre);
-    free(a->notas); 
     free(a);
 }
 

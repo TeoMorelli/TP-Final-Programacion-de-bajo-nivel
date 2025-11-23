@@ -4,11 +4,18 @@
 #include "alumno.h"
 #include <stddef.h>
 
+typedef struct {
+    Alumno *alumno;
+    float *notas;
+    size_t cantidad_notas;
+    float promedio;
+} Inscripcion;
+
 
 typedef struct Materia {
     int id;
     char *nombre;
-    Alumno **inscriptos;
+    Inscripcion *inscriptos;
     size_t cantidad;
 } Materia;
 

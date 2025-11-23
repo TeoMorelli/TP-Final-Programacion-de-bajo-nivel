@@ -14,6 +14,7 @@ int cantidad_materias = 0;
 
 void menu_alumnos();
 void menu_materias();
+void precargar_datos();
 
 void menu_principal() {
     int opcion;
@@ -26,7 +27,7 @@ void menu_principal() {
         printf("0) Salir\n");
         printf("Elija una opcion: ");
         scanf("%d", &opcion);
-        getchar(); // limpia el salto de línea
+        getchar();
 
         switch (opcion) {
             case 1:
@@ -74,6 +75,7 @@ void menu_alumnos() {
         } else if (opcion == 2) {
             printf("\n--- LISTA DE ALUMNOS ---\n");
             for (int i = 0; i < cantidad_alumnos; i++) {
+                printf("- ");
                 alumno_mostrar(alumnos[i]);
             }
         } else if (opcion == 3) {
@@ -222,7 +224,46 @@ void menu_materias() {
     } while (opcion != 0);
 }
 
+void precargar_datos() {
+    // Crear alumnos
+    alumnos[cantidad_alumnos++] = alumno_crear(1, "Juan Perez", 20);
+    alumnos[cantidad_alumnos++] = alumno_crear(2, "Maria Garcia", 22);
+    alumnos[cantidad_alumnos++] = alumno_crear(3, "Pedro Rodriguez", 21);
+    alumnos[cantidad_alumnos++] = alumno_crear(4, "Ana Lopez", 19);
+    alumnos[cantidad_alumnos++] = alumno_crear(5, "Carlos Sanchez", 23);
+
+    // Crear materias
+    materias[cantidad_materias++] = materia_crear(1, "Programacion I");
+    materias[cantidad_materias++] = materia_crear(2, "Matematica Discreta");
+    materias[cantidad_materias++] = materia_crear(3, "Algebra I");
+    materias[cantidad_materias++] = materia_crear(4, "Introduccion a Ingenieria en Computacion");
+    materias[cantidad_materias++] = materia_crear(5, "Algoritmos y Programacion II");
+
+    // Inscribir alumnos
+    // Juan (ID 1) a Programacion I (ID 1)
+    materia_agregar_alumno(materias[0], alumnos[0]); 
+    // Maria (ID 2) a Programacion I (ID 1)
+    materia_agregar_alumno(materias[0], alumnos[1]); 
+    // Juan (ID 1) a Algoritmos y Programacion II (ID 5)
+    materia_agregar_alumno(materias[4], alumnos[0]);
+
+    // Juan (ID 1) a Matematica Discreta (ID 2)
+    materia_agregar_alumno(materias[1], alumnos[0]); 
+    // Pedro (ID 3) a Matematica Discreta (ID 2)
+    materia_agregar_alumno(materias[1], alumnos[2]);
+
+    // Maria (ID 2), Ana (ID 4) y Carlos (ID 5) a Algebra I (ID 3)
+    materia_agregar_alumno(materias[2], alumnos[1]);
+    materia_agregar_alumno(materias[2], alumnos[3]);
+    materia_agregar_alumno(materias[2], alumnos[4]);
+
+    // Pedro (ID 3) y Ana (ID 4) a Introduccion a Ingenieria en Computacion (ID 4)
+    materia_agregar_alumno(materias[3], alumnos[2]);
+    materia_agregar_alumno(materias[3], alumnos[3]);
+}
+
 int main() {
+    precargar_datos();
     menu_principal();
 
     for (int i = 0; i < cantidad_alumnos; i++) alumno_destruir(alumnos[i]);
